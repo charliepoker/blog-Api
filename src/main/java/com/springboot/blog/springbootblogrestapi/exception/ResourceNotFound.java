@@ -1,4 +1,4 @@
-package com.springboot.blog.springbootblogrestapi.expection;
+package com.springboot.blog.springbootblogrestapi.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
