@@ -1,7 +1,5 @@
 package com.springboot.blog.springbootblogrestapi.controller;
 
-
-
 import com.springboot.blog.springbootblogrestapi.dto.PostDto;
 import com.springboot.blog.springbootblogrestapi.entity.Post;
 import com.springboot.blog.springbootblogrestapi.service.PostService;
@@ -30,17 +28,32 @@ public class PostController {
 //    get all post rest api
 
     @GetMapping
-    public List<PostDto> getAllPosts(){
-        return postService.getAllPosts();
+    public List<PostDto> getAllPosts(
+            @RequestParam(value ="pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+    ){
+        return postService.getAllPosts(pageNo, pageSize);
     }
 
 
-//    get a post by id
+//    get a post by id restapi
     @GetMapping("/{id}")
-    public ResponseEntity<PostDto> getPostById(@PathVariable(name = "id") Long id){
+    public ResponseEntity<PostDto> getPostById(@PathVariable(name = "id") long id){
         return  ResponseEntity.ok(postService.getPostById(id));
     }
 
+//    update post by id restapi
+    @PutMapping("/{id}")
+    public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable(name = "id") long id){
+        PostDto postResponse = postService.updatePost(postDto, id);
+        return new ResponseEntity<>(postResponse, HttpStatus.OK);
+    }
 
+//    delete post by id restapi
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable(name = "id") long id){
+        postService.deletePostById(id);
+        return  new ResponseEntity<>("Post entity deleted successfully", HttpStatus.OK);
+    }
 }
